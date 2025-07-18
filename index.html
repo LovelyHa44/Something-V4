@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -27,7 +28,6 @@
       animation: fadeIn 1s ease-in-out;
       padding: 20px;
       position: relative;
-      z-index: 1;
     }
 
     .step.active {
@@ -60,24 +60,24 @@
     }
 
     .hearts {
-      position: fixed;
-      top: 0;
+      position: absolute;
+      bottom: 0;
       left: 0;
-      pointer-events: none;
       width: 100%;
       height: 100%;
+      pointer-events: none;
       overflow: hidden;
-      z-index: 0;
+      z-index: -1;
     }
 
     .heart {
       position: absolute;
+      bottom: -10px;
       width: 20px;
       height: 20px;
       background-color: #ff69b4;
       transform: rotate(45deg);
-      animation: floatUp 6s linear infinite;
-      opacity: 0.7;
+      animation: floatUp 5s linear infinite;
     }
 
     .heart::before,
@@ -96,14 +96,46 @@
     }
 
     .heart::after {
-      top: 0;
       left: -10px;
+      top: 0;
+    }
+
+    .center-heart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      background-color: #ff69b4;
+      transform: translate(-50%, -50%) rotate(45deg);
+      animation: pulse 2s infinite ease-in-out;
+      z-index: 2;
+    }
+
+    .center-heart::before,
+    .center-heart::after {
+      content: "";
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background-color: #ff69b4;
+      border-radius: 50%;
+    }
+
+    .center-heart::before {
+      top: -20px;
+      left: 0;
+    }
+
+    .center-heart::after {
+      left: -20px;
+      top: 0;
     }
 
     @keyframes floatUp {
       0% {
         transform: translateY(0) scale(1) rotate(45deg);
-        opacity: 0.8;
+        opacity: 1;
       }
       100% {
         transform: translateY(-100vh) scale(0.5) rotate(45deg);
@@ -112,13 +144,30 @@
     }
 
     @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
     @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1) rotate(45deg);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.2) rotate(45deg);
+      }
     }
   </style>
 </head>
@@ -166,11 +215,12 @@
     <div class="translation">Yesss it's YOU silly~ 😳💓</div>
   </div>
 
-  <!-- STEP 7 (Final with full floating hearts) -->
+  <!-- STEP 7 -->
   <div class="step" id="step7">
     <div class="text">I Love You 😽</div>
     <div class="translation">Sending all my love to you~ 💌</div>
-    <div class="hearts" id="hearts-container"></div>
+    <div class="center-heart"></div>
+    <div class="hearts" id="heart-container"></div>
   </div>
 
   <script>
@@ -182,17 +232,14 @@
         cur.classList.remove('active');
         nxt.classList.add('active');
         current++;
-
-        // Start hearts if it's the last step
         if (current === 7) {
-          const heartContainer = document.getElementById('hearts-container');
+          const container = document.getElementById('heart-container');
           for (let i = 0; i < 50; i++) {
             const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDelay = (Math.random() * 5) + 's';
-            heart.style.width = heart.style.height = (Math.random() * 10 + 10) + 'px';
-            heartContainer.appendChild(heart);
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(heart);
           }
         }
       }
