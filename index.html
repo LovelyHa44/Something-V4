@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You 🐻💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: white;
+      font-family: 'Patrick Hand', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .step {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step.active {
+      display: flex;
+    }
+
+    .text {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .translation {
+      font-size: 20px;
+      color: #ccc;
+    }
+
+    .gif {
+      width: 200px;
+      height: auto;
+      margin-top: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .tap {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #ffccff;
+      animation: blink 1s infinite;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff69b4;
+      transform: rotate(45deg);
+      animation: floatUp 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff69b4;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      top: 0;
+      left: -10px;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1) rotate(45deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100vh) scale(0.5) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop hidden>
+    <source src="https://files.catbox.moe/3umfki.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step1">
+    <div class="text">Open this, okay? 😆</div>
+    <div class="translation">Click here to start 💗</div>
+    <div class="tap">Tap anywhere to continue 👉</div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step2">
+    <div class="text">Playing a Game</div>
+    <div class="translation">Just playing something fun~ 🎮</div>
+    <img class="gif" src="https://media.tenor.com/gp1z8YKjFPUAAAAi/milk-and-mocha-love.gif" alt="Playing Game">
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step3">
+    <div class="text">Sitting in the Living Room</div>
+    <div class="translation">Relaxing like a soft bean~ 🛋️</div>
+    <img class="gif" src="https://media.tenor.com/zPRZCZIuGHQAAAAi/milk-and-mocha-sweet.gif" alt="Chill Bear">
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="step4">
+    <div class="text">I Really Like Playing Games</div>
+    <div class="translation">Gaming is my happy zone 🥰</div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step" id="step5">
+    <div class="text">But What I Like the Most…</div>
+    <div class="translation">...is something even sweeter 💕</div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step" id="step6">
+    <div class="text">Is You 😝😊💕 Ahahaha~ 🤭</div>
+    <div class="translation">Yesss it's YOU silly~ 😳💓</div>
+  </div>
+
+  <!-- STEP 7 (Final with full floating hearts) -->
+  <div class="step" id="step7">
+    <div class="text">I Love You 😽</div>
+    <div class="translation">Sending all my love to you~ 💌</div>
+    <div class="hearts" id="hearts-container"></div>
+  </div>
+
+  <script>
+    let current = 1;
+    document.body.addEventListener('click', () => {
+      const cur = document.getElementById(`step${current}`);
+      const nxt = document.getElementById(`step${current + 1}`);
+      if (nxt) {
+        cur.classList.remove('active');
+        nxt.classList.add('active');
+        current++;
+
+        // Start hearts if it's the last step
+        if (current === 7) {
+          const heartContainer = document.getElementById('hearts-container');
+          for (let i = 0; i < 50; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = (Math.random() * 5) + 's';
+            heart.style.width = heart.style.height = (Math.random() * 10 + 10) + 'px';
+            heartContainer.appendChild(heart);
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
